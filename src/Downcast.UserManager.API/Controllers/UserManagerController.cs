@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Downcast.UserManager.API.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/v1/users")]
 public class UserManagerController : ControllerBase
@@ -12,6 +14,7 @@ public class UserManagerController : ControllerBase
     {
         _logger = logger;
     }
+
 
     [HttpGet("{userId}")]
     public async Task<object> GetUser(string userId)
