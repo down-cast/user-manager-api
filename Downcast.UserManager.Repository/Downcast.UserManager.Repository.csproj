@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Downcast.Common.Errors" Version="0.0.9" />
+    <PackageReference Include="Downcast.Common.Errors.Handler" Version="0.0.7" />
+    <PackageReference Include="Downcast.Common.Logging" Version="0.0.6" />
+    <PackageReference Include="Google.Cloud.Firestore" Version="3.0.0" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Downcast.UserManager.Model\Downcast.UserManager.Model.csproj" />
+    <ProjectReference Include="..\Downcast.UserManager.PasswordManager\Downcast.UserManager.PasswordManager.csproj" />
+  </ItemGroup>
+
+</Project>

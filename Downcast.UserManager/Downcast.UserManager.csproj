@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Downcast.UserManager.Model\Downcast.UserManager.Model.csproj" />
+    <ProjectReference Include="..\Downcast.UserManager.PasswordManager\Downcast.UserManager.PasswordManager.csproj" />
+    <ProjectReference Include="..\Downcast.UserManager.Repository\Downcast.UserManager.Repository.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Mappings\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Downcast.Common.HttpClient.Extensions" Version="0.0.5" />
+    <PackageReference Include="Downcast.SessionManager.SDK.Client" Version="0.0.1" />
+    <PackageReference Include="Downcast.SessionManager.SDK.Extensions" Version="0.0.2" />
+    <PackageReference Include="Mapster" Version="7.3.0" />
+  </ItemGroup>
+
+</Project>

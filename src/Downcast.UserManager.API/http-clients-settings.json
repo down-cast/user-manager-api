@@ -1,7 +1,7 @@
 {
   "SessionManagerClient": {
     "ClientName": "session-manager-api",
-    "ConnectionString": "https://localhost:7205",
+    "ConnectionString": "https://localhost:7206",
     "CircuitBreakerPolicyOptions": {
       "Enabled": true,
       "ExceptionsUntilBreak": 5,

@@ -4,13 +4,24 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>96ba1135-e4a9-4470-8202-5bd43eccc390</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Downcast.Common.Errors.Handler" Version="0.0.6" />
-        <PackageReference Include="Downcast.Common.Logging" Version="0.0.5" />
+        <PackageReference Include="Downcast.Common.Errors" Version="0.0.9" />
+        <PackageReference Include="Downcast.Common.Errors.Handler" Version="0.0.7" />
+        <PackageReference Include="Downcast.Common.HttpClient.Extensions" Version="0.0.5" />
+        <PackageReference Include="Downcast.Common.Logging" Version="0.0.6" />
         <PackageReference Include="Downcast.SessionManager.SDK.Authentication.Handler" Version="0.0.2" />
+        <PackageReference Include="Downcast.SessionManager.SDK.Client" Version="0.0.1" />
+        <PackageReference Include="Downcast.SessionManager.SDK.Extensions" Version="0.0.2" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Downcast.UserManager.PasswordManager\Downcast.UserManager.PasswordManager.csproj" />
+      <ProjectReference Include="..\..\Downcast.UserManager.Repository\Downcast.UserManager.Repository.csproj" />
+      <ProjectReference Include="..\..\Downcast.UserManager\Downcast.UserManager.csproj" />
     </ItemGroup>
 
 </Project>
