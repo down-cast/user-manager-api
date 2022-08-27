@@ -42,7 +42,7 @@ public class PasswordManager : IPasswordManager
         };
     }
 
-    public bool ValidatePassword(string password, PasswordInfo passwordInfo)
+    public bool IsPasswordValid(string password, PasswordInfo passwordInfo)
     {
         byte[] salt = Convert.FromBase64String(passwordInfo.Salt);
         byte[] hash = Convert.FromBase64String(passwordInfo.Hash);
