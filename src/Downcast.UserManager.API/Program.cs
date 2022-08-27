@@ -14,19 +14,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDowncastAuthentication(builder.Configuration);
 
 builder.AddUserManagerServices();
-builder.ConfigureSerilog();
-builder.ConfigureErrorHandlerOptions();
+builder.AddSerilog();
+builder.AddErrorHandlerOptions();
 
 WebApplication app = builder.Build();
 
 app.UseSerilogRequestLogging();
-app.ConfigureErrorHandler();
+app.UseErrorHandler();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-app.UseHttpsRedirection();
-app.UseHsts();
 
 app.UseAuthentication();
 app.UseAuthorization();
