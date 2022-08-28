@@ -2,6 +2,6 @@ namespace Downcast.UserManager.Authentication.Model;
 
 public class AuthenticationResult
 {
-    public string Token { get; set; } = null!;
-    public DateTime ExpirationDate { get; set; }
+    public required string Token { get; init; }
+    public required DateTime ExpirationDate { get; init; }
 }

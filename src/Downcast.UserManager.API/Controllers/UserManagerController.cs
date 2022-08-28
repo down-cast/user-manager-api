@@ -18,7 +18,7 @@ public class UserManagerController : ControllerBase
     {
         return new
         {
-            Name   = "first",
+            Name = "first",
             UserId = userId
         };
     }

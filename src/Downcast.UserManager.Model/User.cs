@@ -2,8 +2,8 @@
 
 public class User : UpdateUser
 {
-    public string Id { get; set; } = null!;
-    public string Email { get; set; } = null!;
+    public required string Id { get; init; }
+    public required string Email { get; set; }
     public PasswordInfo? PasswordInfo { get; set; }
     public IEnumerable<string> Roles { get; set; } = Enumerable.Empty<string>();
     public DateTime Created { get; set; }

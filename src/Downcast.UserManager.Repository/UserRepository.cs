@@ -15,7 +15,7 @@ internal class UserRepository : IUserRepository
 
     public UserRepository(IMapper mapper, IUserRepositoryInternal repo)
     {
-        _mapper                 = mapper;
+        _mapper = mapper;
         _repo = repo;
     }
 

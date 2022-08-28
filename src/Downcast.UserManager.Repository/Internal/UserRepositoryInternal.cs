@@ -20,7 +20,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         ILogger<UserRepositoryInternal> logger,
         FirestoreDb firestoreDb)
     {
-        _logger     = logger;
+        _logger = logger;
         _collection = firestoreDb.TypedCollection<User>(options.Value.Collection);
     }
 

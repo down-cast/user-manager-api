@@ -36,8 +36,8 @@ public class PasswordManager : IPasswordManager
 
         return new PasswordInfo
         {
-            Hash       = Convert.ToBase64String(hash),
-            Salt       = Convert.ToBase64String(salt),
+            Hash = Convert.ToBase64String(hash),
+            Salt = Convert.ToBase64String(salt),
             Iterations = _options.Value.Iterations
         };
     }

@@ -2,7 +2,7 @@ namespace Downcast.UserManager.Model;
 
 public class PasswordInfo
 {
-    public int Iterations { get; set; }
-    public string Salt { get; set; } = null!;
-    public string Hash { get; set; } = null!;
+    public required int Iterations { get; set; }
+    public required string Salt { get; set; }
+    public required string Hash { get; set; }
 }

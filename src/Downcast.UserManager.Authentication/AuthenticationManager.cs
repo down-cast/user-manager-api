@@ -24,10 +24,10 @@ public class AuthenticationManager : IAuthenticationManager
         ISessionManagerClient sessionManagerClient,
         ILogger<AuthenticationManager> logger)
     {
-        _passwordManager      = passwordManager;
-        _userRepository       = userRepository;
+        _passwordManager = passwordManager;
+        _userRepository = userRepository;
         _sessionManagerClient = sessionManagerClient;
-        _logger               = logger;
+        _logger = logger;
     }
 
 
@@ -58,7 +58,7 @@ public class AuthenticationManager : IAuthenticationManager
         return new AuthenticationResult
         {
             ExpirationDate = tokenResult.ExpirationDate,
-            Token          = tokenResult.Token
+            Token = tokenResult.Token
         };
     }
 
