@@ -64,14 +64,25 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         return snapshot.Count;
     }
 
-    public Task Delete(string id)
+    public async Task Delete(string id)
     {
-        return _collection.Document(id).DeleteAsync();
+        TypedDocumentReference<User> docRef = _collection.Document(id);
+        TypedDocumentSnapshot<User> snapshot = await docRef.GetSnapshotAsync().ConfigureAwait(false);
+        if (snapshot.Exists)
+        {
+            await docRef.DeleteAsync(Precondition.MustExist).ConfigureAwait(false);
+        }
+
+        _logger.LogWarning("User with id {Id} not found", id);
+        throw new DcException(ErrorCodes.EntityNotFound, "User not found");
     }
 
-    public Task Create(User user)
+    public async Task<User> Create(User user)
     {
-        return _collection.Document(user.Id).CreateAsync(user);
+        TypedDocumentReference<User> docRef = _collection.Document();
+        await docRef.CreateAsync(user).ConfigureAwait(false);
+        TypedDocumentSnapshot<User> snapshot = await docRef.GetSnapshotAsync().ConfigureAwait(false);
+        return snapshot.RequiredObject;
     }
 
     public Task Update(string userId, UpdateUser user)

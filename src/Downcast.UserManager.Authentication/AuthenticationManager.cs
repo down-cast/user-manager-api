@@ -5,6 +5,7 @@ using Downcast.SessionManager.SDK.Client.Model;
 using Downcast.UserManager.Authentication.Model;
 using Downcast.UserManager.Cryptography;
 using Downcast.UserManager.Model;
+using Downcast.UserManager.Model.Input;
 using Downcast.UserManager.Repository;
 
 using Microsoft.Extensions.Logging;
@@ -31,34 +32,65 @@ public class AuthenticationManager : IAuthenticationManager
     }
 
 
-    public async Task<AuthenticationResult> Authenticate(string email, string password)
+    public async Task<AuthenticationResult> Authenticate(AuthenticationRequest auth)
     {
-        User? user = await GetUserByEmailSafe(email).ConfigureAwait(false);
-        if (user is not { PasswordInfo: not null } || _passwordManager.IsPasswordValid(password, user.PasswordInfo))
+        User? user = await GetUserByEmailSafe(auth.Email).ConfigureAwait(false);
+
+        if (user is not { PasswordInfo: not null })
         {
-            _logger.LogInformation("User with {Email} does not have a password defined", email);
+            _logger.LogInformation("User with {Email} does not have a password defined", auth.Email);
             throw new DcException(ErrorCodes.AuthenticationFailed);
         }
 
-        return await CreateAuthenticationResult(email, user).ConfigureAwait(false);
+        if (!_passwordManager.IsPasswordValid(auth.Password, user.PasswordInfo))
+        {
+            _logger.LogInformation("User with {Email} failed to authenticate", auth.Email);
+            throw new DcException(ErrorCodes.AuthenticationFailed);
+        }
+
+        await UpdatePasswordIfNeeded(user.Id, auth.Password, user.PasswordInfo).ConfigureAwait(false);
+        return await CreateAuthenticationResult(user).ConfigureAwait(false);
     }
 
-    private async Task<AuthenticationResult> CreateAuthenticationResult(string email, User user)
+    private async Task UpdatePasswordIfNeeded(string userId, string password, PasswordInfo passwordInfo)
     {
-        TokenResult tokenResult = await _sessionManagerClient.CreateSessionToken(new Dictionary<string, object>
+        if (_passwordManager.IsPasswordSecurityOutdated(passwordInfo))
         {
-            { ClaimNames.Email, email },
-            { ClaimNames.Name, user.DisplayName ?? "" },
+            PasswordInfo newPasswordInfo = _passwordManager.HashPassword(password);
+            await _userRepository.UpdatePasswordInfo(userId, newPasswordInfo).ConfigureAwait(false);
+        }
+    }
+
+    private async Task<AuthenticationResult> CreateAuthenticationResult(User user)
+    {
+        try
+        {
+            TokenResult tokenResult = await _sessionManagerClient
+                .CreateSessionToken(GetClaims(user))
+                .ConfigureAwait(false);
+
+            return new AuthenticationResult
+            {
+                ExpirationDate = tokenResult.ExpirationDate,
+                Token = tokenResult.Token
+            };
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "An error has occurred while creating a session token for {Email}", user.Email);
+            throw new DcException(ErrorCodes.AuthenticationFailed);
+        }
+    }
+
+    private static Dictionary<string, object> GetClaims(User user)
+    {
+        return new Dictionary<string, object>
+        {
+            { ClaimNames.Email, user.Email },
             { ClaimNames.Role, user.Roles },
             { ClaimNames.UserId, user.Id },
             { ClaimNames.DisplayName, user.DisplayName ?? "" },
             { ClaimNames.ProfilePictureUri, user.ProfilePictureUri ?? "" }
-        }).ConfigureAwait(false);
-
-        return new AuthenticationResult
-        {
-            ExpirationDate = tokenResult.ExpirationDate,
-            Token = tokenResult.Token
         };
     }
 

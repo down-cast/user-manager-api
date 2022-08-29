@@ -8,7 +8,7 @@ internal interface IUserRepositoryInternal
     Task<User> GetByEmail(string email);
     Task Delete(string id);
     Task<int> CountByEmail(string email);
-    Task Create(User user);
+    Task<User> Create(User user);
     Task Update(string userId, UpdateUser user);
     Task UpdatePasswordInfo(string userId, PasswordInfo passwordInfo);
     Task SetEmailValidated(string userId, bool validated);

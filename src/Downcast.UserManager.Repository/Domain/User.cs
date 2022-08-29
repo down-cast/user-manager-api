@@ -6,10 +6,10 @@ namespace Downcast.UserManager.Repository.Domain;
 internal class User
 {
     [FirestoreDocumentId]
-    public required string Id { get; set; }
+    internal string Id { get; init; } = null!;
 
     [FirestoreProperty]
-    internal required string Email { get; set; }
+    internal string Email { get; set; } = null!;
 
     [FirestoreProperty]
     internal string? DisplayName { get; set; }

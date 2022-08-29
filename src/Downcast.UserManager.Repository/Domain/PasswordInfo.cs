@@ -6,11 +6,11 @@ namespace Downcast.UserManager.Repository.Domain;
 internal class PasswordInfo
 {
     [FirestoreProperty]
-    internal required int Iterations { get; set; }
+    internal int Iterations { get; init; }
 
     [FirestoreProperty]
-    internal required string Salt { get; set; }
+    internal string Salt { get; init; } = null!;
 
     [FirestoreProperty]
-    internal required string Hash { get; set; }
+    internal string Hash { get; init; } = null!;
 }

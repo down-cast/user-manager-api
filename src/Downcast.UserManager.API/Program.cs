@@ -9,7 +9,7 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Configuration.AddJsonFile("http-clients-settings.json");
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerConfig();
 
 builder.AddUserManagerServices();
 builder.AddSerilog();
@@ -24,6 +24,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseForwardedHeaders();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

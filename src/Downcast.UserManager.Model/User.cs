@@ -1,11 +1,8 @@
 ﻿namespace Downcast.UserManager.Model;
 
-public class User : UpdateUser
+public class User : CreateUser
 {
-    public required string Id { get; init; }
-    public required string Email { get; set; }
-    public PasswordInfo? PasswordInfo { get; set; }
-    public IEnumerable<string> Roles { get; set; } = Enumerable.Empty<string>();
+    public string Id { get; init; } = null!;
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }
     public bool HasPassword => PasswordInfo != null;

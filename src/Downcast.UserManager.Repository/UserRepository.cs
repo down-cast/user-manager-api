@@ -1,10 +1,9 @@
-using Downcast.UserManager.Repository.Domain;
+using AutoMapper;
+
+using Downcast.UserManager.Model;
 using Downcast.UserManager.Repository.Internal;
 
-using MapsterMapper;
-
-using PasswordInfo = Downcast.UserManager.Model.PasswordInfo;
-using User = Downcast.UserManager.Model.User;
+using UpdateUser = Downcast.UserManager.Repository.Domain.UpdateUser;
 
 namespace Downcast.UserManager.Repository;
 
@@ -42,10 +41,11 @@ internal class UserRepository : IUserRepository
         return _repo.CountByEmail(email);
     }
 
-    public Task Create(User user)
+    public async Task<User> Create(CreateUser user)
     {
         Domain.User domainUser = _mapper.Map<Domain.User>(user);
-        return _repo.Create(domainUser);
+        Domain.User createdUser = await _repo.Create(domainUser).ConfigureAwait(false);
+        return _mapper.Map<User>(createdUser);
     }
 
     public Task Update(string userId, User user)

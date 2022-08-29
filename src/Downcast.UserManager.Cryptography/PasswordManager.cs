@@ -24,6 +24,11 @@ public class PasswordManager : IPasswordManager
                Convert.FromBase64String(passwordInfo.Salt).Length != _options.Value.SaltSizeInBytes;
     }
 
+    /// <summary>
+    /// Hashes the password using a randomly generated salt and the configured number of iterations.
+    /// </summary>
+    /// <param name="password"></param>
+    /// <returns></returns>
     public PasswordInfo HashPassword(string password)
     {
         byte[] salt = GenerateSalt();
@@ -42,6 +47,12 @@ public class PasswordManager : IPasswordManager
         };
     }
 
+    /// <summary>
+    /// Verifies the password against the stored password info.
+    /// </summary>
+    /// <param name="password"></param>
+    /// <param name="passwordInfo"></param>
+    /// <returns></returns>
     public bool IsPasswordValid(string password, PasswordInfo passwordInfo)
     {
         byte[] salt = Convert.FromBase64String(passwordInfo.Salt);
@@ -57,5 +68,9 @@ public class PasswordManager : IPasswordManager
         return newHash.SequenceEqual(hash);
     }
 
+    /// <summary>
+    /// Generates a random salt.
+    /// </summary>
+    /// <returns></returns>
     private byte[] GenerateSalt() => RandomNumberGenerator.GetBytes(_options.Value.SaltSizeInBytes);
 }
