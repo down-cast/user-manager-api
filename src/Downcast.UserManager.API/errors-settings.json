@@ -25,6 +25,11 @@
         "Message": "Email already taken",
         "Detail": "The email is already taken by another user",
         "StatusCode": "Conflict"
+      },
+      "DatabaseError": {
+        "Message": "Database error",
+        "Detail": "Database operation failed, check the logs for more details, most likely id was not found",
+        "StatusCode": "NotFound"
       }
     }
   }

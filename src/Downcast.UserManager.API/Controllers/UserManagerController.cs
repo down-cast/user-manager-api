@@ -1,9 +1,10 @@
-using Downcast.SessionManager.SDK.Authentication.Extensions;
-using Downcast.UserManager.Model;
-using Downcast.UserManager.Model.Input;
+using System.ComponentModel.DataAnnotations;
 
-using Microsoft.AspNetCore.Authorization;
+using Downcast.UserManager.Model;
+
 using Microsoft.AspNetCore.Mvc;
+
+using CreateUserInputModel = Downcast.UserManager.Model.Input.CreateUserInputModel;
 
 namespace Downcast.UserManager.API.Controllers;
 
@@ -31,14 +32,13 @@ public class UserManagerController : ControllerBase
     }
 
     /// <summary>
-    /// Retrieves the logged in user
+    /// Retrieves user by email
     /// </summary>
     /// <returns>The user info</returns>
-    [HttpGet("me")]
-    [Authorize]
-    public Task<User> GetSelf()
+    [HttpGet("email/{email}")]
+    public Task<User> GetByEmail([Required, EmailAddress] string email)
     {
-        return _userManager.GetUser(HttpContext.User.UserId());
+        return _userManager.GetUserByEmail(email);
     }
 
 
@@ -48,7 +48,6 @@ public class UserManagerController : ControllerBase
     /// <param name="userId"></param>
     /// <returns></returns>
     [HttpDelete("{userId}")]
-    [Authorize(Roles = RoleNames.Admin)]
     public Task DeleteUser(string userId)
     {
         return _userManager.DeleteUser(userId);
@@ -65,5 +64,49 @@ public class UserManagerController : ControllerBase
     {
         User createdUser = await _userManager.CreateUser(userInputModel).ConfigureAwait(false);
         return CreatedAtAction(nameof(GetUser), new { userId = createdUser.Id }, createdUser);
+    }
+
+
+    /// <summary>
+    /// Updates a user
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="updateUser"></param>
+    /// <returns></returns>
+    [HttpPut("{userId}")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public Task UpdateUser(string userId, UpdateUserInputModel updateUser)
+    {
+        return _userManager.UpdateUser(userId, updateUser);
+    }
+
+
+    /// <summary>
+    /// Adds a list of roles to a user
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="roles"></param>
+    /// <returns></returns>
+    [HttpPut("{userId}/roles")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public Task AddRoles(string userId, [FromBody] string[] roles)
+    {
+        return _userManager.AddRoles(userId, roles);
+    }
+
+    /// <summary>
+    /// Removes a list of roles from a user
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="roles"></param>
+    /// <returns></returns>
+    [HttpDelete("{userId}/roles")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public Task RemoveRoles(string userId, [FromBody] string[] roles)
+    {
+        return _userManager.RemoveRoles(userId, roles);
     }
 }

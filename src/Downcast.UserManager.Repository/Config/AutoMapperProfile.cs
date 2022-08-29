@@ -16,7 +16,7 @@ public class AutoMapperProfile : Profile
         AllowNullDestinationValues = true;
         ShouldMapProperty = arg => arg?.GetMethod?.IsPublic is true || arg?.GetMethod?.IsAssembly is true;
 
-        CreateMap<CreateUser, User>();
+        CreateMap<CreateUserInputModel, User>();
         CreateMap<User, Model.User>();
 
         CreateMap<PasswordInfo, Model.PasswordInfo>();
@@ -24,5 +24,8 @@ public class AutoMapperProfile : Profile
 
         CreateMap<SocialLinks, Domain.SocialLinks>();
         CreateMap<Domain.SocialLinks, SocialLinks>();
+
+        CreateMap<UpdateUserInputModel, Domain.UpdateUser>();
+        CreateMap<Domain.UpdateUser, UpdateUserInputModel>();
     }
 }

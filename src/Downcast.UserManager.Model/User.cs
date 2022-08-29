@@ -1,6 +1,6 @@
 ﻿namespace Downcast.UserManager.Model;
 
-public class User : CreateUser
+public class User : CreateUserInputModel
 {
     public string Id { get; init; } = null!;
     public DateTime Created { get; set; }

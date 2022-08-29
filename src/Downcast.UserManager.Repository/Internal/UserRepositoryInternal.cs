@@ -5,6 +5,8 @@ using Firestore.Typed.Client;
 
 using Google.Cloud.Firestore;
 
+using Grpc.Core;
+
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -27,10 +29,10 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
 
     public async Task<User> Get(string id)
     {
-        TypedDocumentSnapshot<User> user = await _collection.Document(id).GetSnapshotAsync().ConfigureAwait(false);
-        if (user.Exists)
+        TypedDocumentSnapshot<User> snapshot = await _collection.Document(id).GetSnapshotAsync().ConfigureAwait(false);
+        if (snapshot.Exists)
         {
-            return user.Object;
+            return snapshot.RequiredObject;
         }
 
         _logger.LogWarning("User with id {Id} not found", id);
@@ -54,6 +56,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         throw new DcException(ErrorCodes.EntityNotFound, "User not found");
     }
 
+
     public async Task<int> CountByEmail(string email)
     {
         TypedQuerySnapshot<User> snapshot = await _collection
@@ -64,18 +67,11 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         return snapshot.Count;
     }
 
-    public async Task Delete(string id)
+    public Task Delete(string id)
     {
-        TypedDocumentReference<User> docRef = _collection.Document(id);
-        TypedDocumentSnapshot<User> snapshot = await docRef.GetSnapshotAsync().ConfigureAwait(false);
-        if (snapshot.Exists)
-        {
-            await docRef.DeleteAsync(Precondition.MustExist).ConfigureAwait(false);
-        }
-
-        _logger.LogWarning("User with id {Id} not found", id);
-        throw new DcException(ErrorCodes.EntityNotFound, "User not found");
+        return ExecuteDbOperation(() => _collection.Document(id).DeleteAsync(Precondition.MustExist));
     }
+
 
     public async Task<User> Create(User user)
     {
@@ -85,46 +81,58 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         return snapshot.RequiredObject;
     }
 
-    public Task Update(string userId, UpdateUser user)
+    public Task Update(string id, UpdateUser user)
     {
         var updateDefinition = new UpdateDefinition<User>();
         SetProfilePictureUri(user, updateDefinition);
+        SetEmailValidated(user, updateDefinition);
         SetDisplayName(user, updateDefinition);
         SetFacebookLink(user, updateDefinition);
         SetLinkedInLink(user, updateDefinition);
         SetTwitterLink(user, updateDefinition);
         SetStackOverflowLink(user, updateDefinition);
         SetGitHubLink(user, updateDefinition);
+        SetDescription(user, updateDefinition);
 
-        return _collection.Document(userId).UpdateAsync(updateDefinition, Precondition.MustExist);
+        return ExecuteDbOperation(() => _collection.Document(id).UpdateAsync(updateDefinition));
     }
 
-    public Task UpdatePasswordInfo(string userId, PasswordInfo passwordInfo)
+    private async Task<T> ExecuteDbOperation<T>(Func<Task<T>> operation)
     {
-        return _collection
-            .Document(userId)
-            .UpdateAsync(user => user.PasswordInfo, passwordInfo, Precondition.MustExist);
+        try
+        {
+            return await operation().ConfigureAwait(false);
+        }
+        catch (RpcException e)
+        {
+            _logger.LogError("Database operation failed {StatusCode}, {Message}", e.StatusCode, e.Status.Detail);
+            throw new DcException(ErrorCodes.DatabaseError, "Failed to execute operation");
+        }
     }
 
-    public Task SetEmailValidated(string userId, bool validated)
+
+    public Task UpdatePasswordInfo(string id, PasswordInfo passwordInfo)
     {
-        return _collection
-            .Document(userId)
-            .UpdateAsync(user => user.EmailValidated, validated, Precondition.MustExist);
+        return ExecuteDbOperation(
+            () => _collection
+                .Document(id)
+                .UpdateAsync(user => user.PasswordInfo, passwordInfo, Precondition.MustExist));
     }
 
-    public Task AddRoles(string userId, params string[] roles)
+    public Task AddRoles(string id, params string[] roles)
     {
-        return _collection
-            .Document(userId)
-            .UpdateAsync(user => user.Roles, FieldValue.ArrayUnion(roles), Precondition.MustExist);
+        return ExecuteDbOperation(
+            () => _collection
+                .Document(id)
+                .UpdateAsync(user => user.Roles, FieldValue.ArrayUnion(roles)));
     }
 
-    public Task RemoveRoles(string userId, params string[] roles)
+    public Task RemoveRoles(string id, params string[] roles)
     {
-        return _collection
-            .Document(userId)
-            .UpdateAsync(user => user.Roles, FieldValue.ArrayRemove(roles), Precondition.MustExist);
+        return ExecuteDbOperation(
+            () => _collection
+                .Document(id)
+                .UpdateAsync(user => user.Roles, FieldValue.ArrayRemove(roles)));
     }
 
     private static void SetGitHubLink(UpdateUser user, UpdateDefinition<User> updateDefinition)
@@ -180,6 +188,22 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         if (user.ProfilePictureUri is not null)
         {
             updateDefinition.Set(u => u.ProfilePictureUri, user.ProfilePictureUri);
+        }
+    }
+
+    private static void SetEmailValidated(UpdateUser user, UpdateDefinition<User> updateDefinition)
+    {
+        if (user.EmailValidated is not null)
+        {
+            updateDefinition.Set(u => u.EmailValidated, user.EmailValidated.Value);
+        }
+    }
+
+    private static void SetDescription(UpdateUser user, UpdateDefinition<User> updateDefinition)
+    {
+        if (user.Description is not null)
+        {
+            updateDefinition.Set(u => u.Description, user.Description);
         }
     }
 }

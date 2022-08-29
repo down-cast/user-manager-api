@@ -9,9 +9,8 @@ internal interface IUserRepositoryInternal
     Task Delete(string id);
     Task<int> CountByEmail(string email);
     Task<User> Create(User user);
-    Task Update(string userId, UpdateUser user);
-    Task UpdatePasswordInfo(string userId, PasswordInfo passwordInfo);
-    Task SetEmailValidated(string userId, bool validated);
-    Task AddRoles(string userId, params string[] roles);
-    Task RemoveRoles(string userId, params string[] roles);
+    Task Update(string id, UpdateUser user);
+    Task UpdatePasswordInfo(string id, PasswordInfo passwordInfo);
+    Task AddRoles(string id, params string[] roles);
+    Task RemoveRoles(string id, params string[] roles);
 }

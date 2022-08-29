@@ -15,7 +15,9 @@ internal class User
     internal string? DisplayName { get; set; }
 
     [FirestoreProperty]
-    internal string? ProfilePictureUri { get; set; }
+    internal string? ProfilePictureUri { get; set; }    
+    [FirestoreProperty]
+    internal string? Description { get; set; }
 
     [FirestoreProperty]
     internal bool EmailValidated { get; set; }

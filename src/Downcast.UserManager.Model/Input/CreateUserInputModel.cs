@@ -11,5 +11,5 @@ public class CreateUserInputModel
     [Required]
     public string Password { get; set; } = null!;
 
-    public string? DisplayName { get; set; }
+    public string? DisplayName { get; init; }
 }

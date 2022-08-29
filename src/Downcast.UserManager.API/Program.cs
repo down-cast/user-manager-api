@@ -7,7 +7,6 @@ using Serilog;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-builder.Configuration.AddJsonFile("http-clients-settings.json");
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfig();
 
@@ -24,8 +23,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseForwardedHeaders();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers();
 

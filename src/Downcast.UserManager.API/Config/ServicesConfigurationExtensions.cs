@@ -1,5 +1,3 @@
-using Downcast.SessionManager.SDK.Authentication.Handler;
-using Downcast.SessionManager.SDK.Extensions;
 using Downcast.UserManager.Authentication;
 using Downcast.UserManager.Cryptography;
 using Downcast.UserManager.Repository.Config;
@@ -14,7 +12,6 @@ public static class ServicesConfigurationExtensions
         AddAuthenticationManager(builder);
         AddUserManager(builder);
         AddPasswordManager(builder);
-        builder.Services.AddDowncastAuthentication(builder.Configuration);
         return builder;
     }
 

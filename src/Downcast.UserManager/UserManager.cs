@@ -1,10 +1,11 @@
 ﻿using Downcast.Common.Errors;
 using Downcast.UserManager.Cryptography;
 using Downcast.UserManager.Model;
-using Downcast.UserManager.Model.Input;
 using Downcast.UserManager.Repository;
 
 using Microsoft.Extensions.Logging;
+
+using CreateUserInputModel = Downcast.UserManager.Model.Input.CreateUserInputModel;
 
 namespace Downcast.UserManager;
 
@@ -30,13 +31,18 @@ public class UserManager : IUserManager
             throw new DcException(ErrorCodes.EmailAlreadyTaken);
         }
 
-        var userToCreate = new CreateUser
+        var userToCreate = new Model.CreateUserInputModel
         {
             Email = userInputModel.Email,
             DisplayName = userInputModel.DisplayName,
             PasswordInfo = _passwordManager.HashPassword(userInputModel.Password)
         };
         return await _userRepository.Create(userToCreate).ConfigureAwait(false);
+    }
+
+    public Task<User> GetUserByEmail(string email)
+    {
+        return _userRepository.GetByEmail(email);
     }
 
     private async Task<bool> EmailAlreadyTaken(CreateUserInputModel createUserInputModel)
@@ -53,5 +59,26 @@ public class UserManager : IUserManager
     public Task<User> GetUser(string id)
     {
         return _userRepository.Get(id);
+    }
+
+    public Task UpdateUser(string id, UpdateUserInputModel updateUserInputModel)
+    {
+        return _userRepository.Update(id, updateUserInputModel);
+    }
+
+    public Task UpdateUserPassword(string id, string password)
+    {
+        PasswordInfo passwordInfo = _passwordManager.HashPassword(password);
+        return _userRepository.UpdatePasswordInfo(id, passwordInfo);
+    }
+
+    public Task AddRoles(string id, string[] roles)
+    {
+        return _userRepository.AddRoles(id, roles);
+    }
+
+    public Task RemoveRoles(string id, string[] roles)
+    {
+        return _userRepository.RemoveRoles(id, roles);
     }
 }
