@@ -27,15 +27,16 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
     }
 
 
-    public async Task<User> Get(string id)
+    public async Task<User> Get(string userId)
     {
-        TypedDocumentSnapshot<User> snapshot = await _collection.Document(id).GetSnapshotAsync().ConfigureAwait(false);
+        TypedDocumentSnapshot<User> snapshot =
+            await _collection.Document(userId).GetSnapshotAsync().ConfigureAwait(false);
         if (snapshot.Exists)
         {
             return snapshot.RequiredObject;
         }
 
-        _logger.LogWarning("User with id {Id} not found", id);
+        _logger.LogWarning("User with {Id} not found", userId);
         throw new DcException(ErrorCodes.EntityNotFound, "User not found");
     }
 
@@ -67,9 +68,9 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         return snapshot.Count;
     }
 
-    public Task Delete(string id)
+    public Task Delete(string userId)
     {
-        return ExecuteDbOperation(() => _collection.Document(id).DeleteAsync(Precondition.MustExist));
+        return ExecuteDbOperation(() => _collection.Document(userId).DeleteAsync(Precondition.MustExist));
     }
 
 
@@ -81,7 +82,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         return snapshot.RequiredObject;
     }
 
-    public Task Update(string id, UpdateUser user)
+    public Task Update(string userId, UpdateUser user)
     {
         var updateDefinition = new UpdateDefinition<User>();
         SetProfilePictureUri(user, updateDefinition);
@@ -94,7 +95,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         SetGitHubLink(user, updateDefinition);
         SetDescription(user, updateDefinition);
 
-        return ExecuteDbOperation(() => _collection.Document(id).UpdateAsync(updateDefinition));
+        return ExecuteDbOperation(() => _collection.Document(userId).UpdateAsync(updateDefinition));
     }
 
     private async Task<T> ExecuteDbOperation<T>(Func<Task<T>> operation)
@@ -111,27 +112,27 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
     }
 
 
-    public Task UpdatePasswordInfo(string id, PasswordInfo passwordInfo)
+    public Task UpdatePasswordInfo(string userId, PasswordInfo passwordInfo)
     {
         return ExecuteDbOperation(
             () => _collection
-                .Document(id)
-                .UpdateAsync(user => user.PasswordInfo, passwordInfo, Precondition.MustExist));
+                .Document(userId)
+                .UpdateAsync(user => user.PasswordInfo, passwordInfo));
     }
 
-    public Task AddRoles(string id, params string[] roles)
+    public Task AddRoles(string userId, params string[] roles)
     {
         return ExecuteDbOperation(
             () => _collection
-                .Document(id)
+                .Document(userId)
                 .UpdateAsync(user => user.Roles, FieldValue.ArrayUnion(roles)));
     }
 
-    public Task RemoveRoles(string id, params string[] roles)
+    public Task RemoveRoles(string userId, params string[] roles)
     {
         return ExecuteDbOperation(
             () => _collection
-                .Document(id)
+                .Document(userId)
                 .UpdateAsync(user => user.Roles, FieldValue.ArrayRemove(roles)));
     }
 

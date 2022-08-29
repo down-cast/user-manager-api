@@ -51,34 +51,34 @@ public class UserManager : IUserManager
         return count > 0;
     }
 
-    public Task DeleteUser(string id)
+    public Task DeleteUser(string userId)
     {
-        return _userRepository.Delete(id);
+        return _userRepository.Delete(userId);
     }
 
-    public Task<User> GetUser(string id)
+    public Task<User> GetUser(string userId)
     {
-        return _userRepository.Get(id);
+        return _userRepository.Get(userId);
     }
 
-    public Task UpdateUser(string id, UpdateUserInputModel updateUserInputModel)
+    public Task UpdateUser(string userId, UpdateUserInputModel updateUserInputModel)
     {
-        return _userRepository.Update(id, updateUserInputModel);
+        return _userRepository.Update(userId, updateUserInputModel);
     }
 
-    public Task UpdateUserPassword(string id, string password)
+    public Task UpdateUserPassword(string userId, string password)
     {
         PasswordInfo passwordInfo = _passwordManager.HashPassword(password);
-        return _userRepository.UpdatePasswordInfo(id, passwordInfo);
+        return _userRepository.UpdatePasswordInfo(userId, passwordInfo);
     }
 
-    public Task AddRoles(string id, string[] roles)
+    public Task AddRoles(string userId, string[] roles)
     {
-        return _userRepository.AddRoles(id, roles);
+        return _userRepository.AddRoles(userId, roles);
     }
 
-    public Task RemoveRoles(string id, string[] roles)
+    public Task RemoveRoles(string userId, string[] roles)
     {
-        return _userRepository.RemoveRoles(id, roles);
+        return _userRepository.RemoveRoles(userId, roles);
     }
 }

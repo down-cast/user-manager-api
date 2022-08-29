@@ -1,6 +1,6 @@
-using Downcast.UserManager.Authentication;
 using Downcast.UserManager.Cryptography;
 using Downcast.UserManager.Repository.Config;
+using Downcast.UserManager.Security;
 
 namespace Downcast.UserManager.API.Config;
 
@@ -32,6 +32,6 @@ public static class ServicesConfigurationExtensions
 
     private static void AddAuthenticationManager(WebApplicationBuilder builder)
     {
-        builder.Services.AddSingleton<IAuthenticationManager, AuthenticationManager>();
+        builder.Services.AddSingleton<ISecurityManager, SecurityManager>();
     }
 }

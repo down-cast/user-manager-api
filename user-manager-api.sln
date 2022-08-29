@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Crypto
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Model", "src\Downcast.UserManager.Model\Downcast.UserManager.Model.csproj", "{7271CD00-73A4-41F6-964A-3E54F46B714C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Authentication", "src\Downcast.UserManager.Authentication\Downcast.UserManager.Authentication.csproj", "{5D4454FA-968B-4BEC-8A13-203F250D2C59}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Security", "src\Downcast.UserManager.Security\Downcast.UserManager.Security.csproj", "{5D4454FA-968B-4BEC-8A13-203F250D2C59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

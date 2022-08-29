@@ -10,11 +10,11 @@ namespace Downcast.UserManager.API.Controllers;
 
 [ApiController]
 [Route("api/v1/users")]
-public class UserManagerController : ControllerBase
+public class UsersController : ControllerBase
 {
     private readonly IUserManager _userManager;
 
-    public UserManagerController(IUserManager userManager)
+    public UsersController(IUserManager userManager)
     {
         _userManager = userManager;
     }

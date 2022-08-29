@@ -5,24 +5,23 @@ using Downcast.UserManager.Repository;
 
 using Microsoft.Extensions.Logging;
 
-namespace Downcast.UserManager.Authentication;
+namespace Downcast.UserManager.Security;
 
-public class AuthenticationManager : IAuthenticationManager
+public class SecurityManager : ISecurityManager
 {
     private readonly IPasswordManager _passwordManager;
     private readonly IUserRepository _userRepository;
-    private readonly ILogger<AuthenticationManager> _logger;
+    private readonly ILogger<SecurityManager> _logger;
 
-    public AuthenticationManager(
+    public SecurityManager(
         IPasswordManager passwordManager,
         IUserRepository userRepository,
-        ILogger<AuthenticationManager> logger)
+        ILogger<SecurityManager> logger)
     {
         _passwordManager = passwordManager;
         _userRepository = userRepository;
         _logger = logger;
     }
-
 
     public async Task<bool> ValidateCredentials(AuthenticationRequest auth)
     {
@@ -46,7 +45,6 @@ public class AuthenticationManager : IAuthenticationManager
         }
     }
 
-
     private async Task<User?> GetUserByEmailSafe(string email)
     {
         try
@@ -58,5 +56,11 @@ public class AuthenticationManager : IAuthenticationManager
             _logger.LogError(e, "An error occurred while trying to get user with {Email}", email);
             return null;
         }
+    }
+
+    public Task UpdatePassword(string userId, UpdatePasswordInput passwordInput)
+    {
+        PasswordInfo newPasswordInfo = _passwordManager.HashPassword(passwordInput.Password);
+        return _userRepository.UpdatePasswordInfo(userId, newPasswordInfo);
     }
 }

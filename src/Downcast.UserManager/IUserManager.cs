@@ -7,12 +7,12 @@ namespace Downcast.UserManager;
 public interface IUserManager
 {
     Task<User> CreateUser(CreateUserInputModel userInputModel);
-    Task DeleteUser(string id);
-    Task<User> GetUser(string id);
+    Task DeleteUser(string userId);
+    Task<User> GetUser(string userId);
     Task<User> GetUserByEmail(string email);
-    Task UpdateUser(string id, UpdateUserInputModel updateUserInputModel);
-    Task UpdateUserPassword(string id, string password);
+    Task UpdateUser(string userId, UpdateUserInputModel updateUserInputModel);
+    Task UpdateUserPassword(string userId, string password);
 
-    Task AddRoles(string id, string[] roles);
-    Task RemoveRoles(string id, string[] roles);
+    Task AddRoles(string userId, string[] roles);
+    Task RemoveRoles(string userId, string[] roles);
 }

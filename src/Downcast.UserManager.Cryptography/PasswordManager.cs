@@ -17,6 +17,11 @@ public class PasswordManager : IPasswordManager
         _options = options;
     }
 
+    /// <summary>
+    /// Calculates if the current password is hashed with the current security settings
+    /// </summary>
+    /// <param name="passwordInfo"></param>
+    /// <returns></returns>
     public bool IsPasswordSecurityOutdated(PasswordInfo passwordInfo)
     {
         return passwordInfo.Iterations != _options.Value.Iterations ||

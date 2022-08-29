@@ -11,8 +11,4 @@
         <ProjectReference Include="..\Downcast.UserManager.Repository\Downcast.UserManager.Repository.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Model" />
-    </ItemGroup>
-
 </Project>

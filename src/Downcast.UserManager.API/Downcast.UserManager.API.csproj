@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Downcast.UserManager.Authentication\Downcast.UserManager.Authentication.csproj" />
+      <ProjectReference Include="..\Downcast.UserManager.Security\Downcast.UserManager.Security.csproj" />
       <ProjectReference Include="..\Downcast.UserManager\Downcast.UserManager.csproj" />
     </ItemGroup>
 

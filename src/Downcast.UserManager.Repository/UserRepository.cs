@@ -18,9 +18,9 @@ internal class UserRepository : IUserRepository
         _repo = repo;
     }
 
-    public async Task<User> Get(string id)
+    public async Task<User> Get(string userId)
     {
-        Domain.User user = await _repo.Get(id).ConfigureAwait(false);
+        Domain.User user = await _repo.Get(userId).ConfigureAwait(false);
         return _mapper.Map<User>(user);
     }
 
@@ -30,9 +30,9 @@ internal class UserRepository : IUserRepository
         return _mapper.Map<User>(user);
     }
 
-    public Task Delete(string id)
+    public Task Delete(string userId)
     {
-        return _repo.Delete(id);
+        return _repo.Delete(userId);
     }
 
     public Task<int> CountByEmail(string email)
@@ -47,25 +47,25 @@ internal class UserRepository : IUserRepository
         return _mapper.Map<User>(createdUser);
     }
 
-    public Task Update(string id, UpdateUserInputModel userInputModel)
+    public Task Update(string userId, UpdateUserInputModel userInputModel)
     {
         UpdateUser domainUser = _mapper.Map<UpdateUser>(userInputModel);
-        return _repo.Update(id, domainUser);
+        return _repo.Update(userId, domainUser);
     }
 
-    public Task UpdatePasswordInfo(string id, PasswordInfo passwordInfo)
+    public Task UpdatePasswordInfo(string userId, PasswordInfo passwordInfo)
     {
         Domain.PasswordInfo domainPasswordInfo = _mapper.Map<Domain.PasswordInfo>(passwordInfo);
-        return _repo.UpdatePasswordInfo(id, domainPasswordInfo);
+        return _repo.UpdatePasswordInfo(userId, domainPasswordInfo);
     }
 
-    public Task AddRoles(string id, params string[] roles)
+    public Task AddRoles(string userId, params string[] roles)
     {
-        return _repo.AddRoles(id, roles);
+        return _repo.AddRoles(userId, roles);
     }
 
-    public Task RemoveRoles(string id, params string[] roles)
+    public Task RemoveRoles(string userId, params string[] roles)
     {
-        return _repo.RemoveRoles(id, roles);
+        return _repo.RemoveRoles(userId, roles);
     }
 }
