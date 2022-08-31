@@ -37,6 +37,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Securi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Cryptography.Tests", "test\Downcast.UserManager.Cryptography.Tests\Downcast.UserManager.Cryptography.Tests.csproj", "{75656542-9642-46C7-AD32-EB2CBDC3BA11}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C0A3BBA8-2E60-41DC-9FE6-02C837ECCD7A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build_and_test.yml = .github\workflows\build_and_test.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,5 +110,6 @@ Global
 		{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2} = {0018D701-DBA5-4C74-B562-F36942B87BD6}
 		{FE4A301F-90D3-452E-AF5B-79D510821000} = {0018D701-DBA5-4C74-B562-F36942B87BD6}
 		{75656542-9642-46C7-AD32-EB2CBDC3BA11} = {0018D701-DBA5-4C74-B562-F36942B87BD6}
+		{C0A3BBA8-2E60-41DC-9FE6-02C837ECCD7A} = {4908532E-C4A9-4AE7-B9F2-3868C7718666}
 	EndGlobalSection
 EndGlobal
