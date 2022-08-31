@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Downcast.UserManager.Model;
+namespace Downcast.UserManager.Model.Input;
 
 public class UpdateUserInputModel
 {

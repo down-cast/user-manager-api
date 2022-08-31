@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 using Downcast.UserManager.Model;
+using Downcast.UserManager.Model.Input;
 
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,6 @@ public class UsersController : ControllerBase
     {
         _userManager = userManager;
     }
-
 
     /// <summary>
     /// Retrieves a user by id

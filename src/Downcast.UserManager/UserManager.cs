@@ -1,6 +1,7 @@
 ﻿using Downcast.Common.Errors;
 using Downcast.UserManager.Cryptography;
 using Downcast.UserManager.Model;
+using Downcast.UserManager.Model.Input;
 using Downcast.UserManager.Repository;
 
 using Microsoft.Extensions.Logging;
@@ -31,7 +32,7 @@ public class UserManager : IUserManager
             throw new DcException(ErrorCodes.EmailAlreadyTaken);
         }
 
-        var userToCreate = new Model.CreateUserInputModel
+        var userToCreate = new Model.CreateUser
         {
             Email = userInputModel.Email,
             DisplayName = userInputModel.DisplayName,
@@ -40,9 +41,9 @@ public class UserManager : IUserManager
         return await _userRepository.Create(userToCreate).ConfigureAwait(false);
     }
 
-    public Task<User> GetUserByEmail(string email)
+    public async Task<User> GetUserByEmail(string email)
     {
-        return _userRepository.GetByEmail(email);
+        return await _userRepository.GetByEmail(email).ConfigureAwait(false);
     }
 
     private async Task<bool> EmailAlreadyTaken(CreateUserInputModel createUserInputModel)
@@ -56,9 +57,9 @@ public class UserManager : IUserManager
         return _userRepository.Delete(userId);
     }
 
-    public Task<User> GetUser(string userId)
+    public async Task<User> GetUser(string userId)
     {
-        return _userRepository.Get(userId);
+        return await _userRepository.Get(userId).ConfigureAwait(false);
     }
 
     public Task UpdateUser(string userId, UpdateUserInputModel updateUserInputModel)

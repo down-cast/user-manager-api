@@ -25,7 +25,7 @@ public class SecurityController : ControllerBase
     [HttpPost("authentication")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    public async Task<IActionResult> ValidateCredentials([FromBody] AuthenticationRequest authRequest)
+    public async Task<ActionResult<object>> ValidateCredentials([FromBody] AuthenticationRequest authRequest)
     {
         bool credentialsValid = await _securityManager.ValidateCredentials(authRequest).ConfigureAwait(false);
         if (credentialsValid)

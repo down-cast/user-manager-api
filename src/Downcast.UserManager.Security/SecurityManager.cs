@@ -25,7 +25,7 @@ public class SecurityManager : ISecurityManager
 
     public async Task<bool> ValidateCredentials(AuthenticationRequest auth)
     {
-        User? user = await GetUserByEmailSafe(auth.Email).ConfigureAwait(false);
+        UserWithPassword? user = await GetUserByEmailSafe(auth.Email).ConfigureAwait(false);
 
         if (user is not { PasswordInfo: { } } || !_passwordManager.IsPasswordValid(auth.Password, user.PasswordInfo))
         {
@@ -45,7 +45,7 @@ public class SecurityManager : ISecurityManager
         }
     }
 
-    private async Task<User?> GetUserByEmailSafe(string email)
+    private async Task<UserWithPassword?> GetUserByEmailSafe(string email)
     {
         try
         {

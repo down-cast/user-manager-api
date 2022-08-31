@@ -1,6 +1,7 @@
 using AutoMapper;
 
 using Downcast.UserManager.Model;
+using Downcast.UserManager.Model.Input;
 using Downcast.UserManager.Repository.Internal;
 
 using UpdateUser = Downcast.UserManager.Repository.Domain.UpdateUser;
@@ -18,16 +19,16 @@ internal class UserRepository : IUserRepository
         _repo = repo;
     }
 
-    public async Task<User> Get(string userId)
+    public async Task<UserWithPassword> Get(string userId)
     {
         Domain.User user = await _repo.Get(userId).ConfigureAwait(false);
-        return _mapper.Map<User>(user);
+        return _mapper.Map<UserWithPassword>(user);
     }
 
-    public async Task<User> GetByEmail(string email)
+    public async Task<UserWithPassword> GetByEmail(string email)
     {
         Domain.User user = await _repo.GetByEmail(email).ConfigureAwait(false);
-        return _mapper.Map<User>(user);
+        return _mapper.Map<UserWithPassword>(user);
     }
 
     public Task Delete(string userId)
@@ -40,11 +41,11 @@ internal class UserRepository : IUserRepository
         return _repo.CountByEmail(email);
     }
 
-    public async Task<User> Create(CreateUserInputModel userInputModel)
+    public async Task<UserWithPassword> Create(CreateUser user)
     {
-        Domain.User domainUser = _mapper.Map<Domain.User>(userInputModel);
+        Domain.User domainUser = _mapper.Map<Domain.User>(user);
         Domain.User createdUser = await _repo.Create(domainUser).ConfigureAwait(false);
-        return _mapper.Map<User>(createdUser);
+        return _mapper.Map<UserWithPassword>(createdUser);
     }
 
     public Task Update(string userId, UpdateUserInputModel userInputModel)

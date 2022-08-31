@@ -6,7 +6,10 @@ using Serilog;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.PropertyNameCaseInsensitive = true);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerConfig();
 

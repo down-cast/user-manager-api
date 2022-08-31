@@ -1,6 +1,7 @@
 using AutoMapper;
 
 using Downcast.UserManager.Model;
+using Downcast.UserManager.Model.Input;
 
 using PasswordInfo = Downcast.UserManager.Repository.Domain.PasswordInfo;
 using User = Downcast.UserManager.Repository.Domain.User;
@@ -16,8 +17,10 @@ public class AutoMapperProfile : Profile
         AllowNullDestinationValues = true;
         ShouldMapProperty = arg => arg?.GetMethod?.IsPublic is true || arg?.GetMethod?.IsAssembly is true;
 
-        CreateMap<CreateUserInputModel, User>();
+        CreateMap<CreateUser, User>();
         CreateMap<User, Model.User>();
+
+        CreateMap<User, UserWithPassword>();
 
         CreateMap<PasswordInfo, Model.PasswordInfo>();
         CreateMap<Model.PasswordInfo, PasswordInfo>();

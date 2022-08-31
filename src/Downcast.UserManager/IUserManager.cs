@@ -1,4 +1,5 @@
 using Downcast.UserManager.Model;
+using Downcast.UserManager.Model.Input;
 
 using CreateUserInputModel = Downcast.UserManager.Model.Input.CreateUserInputModel;
 

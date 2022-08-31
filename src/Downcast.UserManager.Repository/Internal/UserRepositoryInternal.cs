@@ -2,6 +2,7 @@
 using Downcast.UserManager.Repository.Domain;
 
 using Firestore.Typed.Client;
+using Firestore.Typed.Client.Extensions;
 
 using Google.Cloud.Firestore;
 
@@ -15,7 +16,9 @@ namespace Downcast.UserManager.Repository.Internal;
 internal class UserRepositoryInternal : IUserRepositoryInternal
 {
     private readonly ILogger<UserRepositoryInternal> _logger;
+    private readonly FirestoreDb _firestoreDb;
     private readonly TypedCollectionReference<User> _collection;
+    private readonly CollectionReference _emailsCollection;
 
     public UserRepositoryInternal(
         IOptions<UserRepositoryOptions> options,
@@ -23,14 +26,19 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         FirestoreDb firestoreDb)
     {
         _logger = logger;
-        _collection = firestoreDb.TypedCollection<User>(options.Value.Collection);
+        _firestoreDb = firestoreDb;
+        _emailsCollection = firestoreDb.Collection(options.Value.EmailsCollection);
+        _collection = firestoreDb.TypedCollection<User>(options.Value.UsersCollection);
     }
 
 
     public async Task<User> Get(string userId)
     {
-        TypedDocumentSnapshot<User> snapshot =
-            await _collection.Document(userId).GetSnapshotAsync().ConfigureAwait(false);
+        TypedDocumentSnapshot<User> snapshot = await _collection
+            .Document(userId)
+            .GetSnapshotAsync()
+            .ConfigureAwait(false);
+
         if (snapshot.Exists)
         {
             return snapshot.RequiredObject;
@@ -68,17 +76,39 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
         return snapshot.Count;
     }
 
-    public Task Delete(string userId)
+    public async Task Delete(string userId)
     {
-        return ExecuteDbOperation(() => _collection.Document(userId).DeleteAsync(Precondition.MustExist));
+        User user = await Get(userId).ConfigureAwait(false);
+        await ExecuteDbOperation(() =>
+        {
+            WriteBatch batch = _firestoreDb.StartBatch();
+            batch.Delete(_collection.Document(userId), Precondition.MustExist);
+            batch.Delete(_emailsCollection.Document(user.Email), Precondition.MustExist);
+            return batch.CommitAsync();
+        }).ConfigureAwait(false);
     }
 
 
     public async Task<User> Create(User user)
     {
-        TypedDocumentReference<User> docRef = _collection.Document();
-        await docRef.CreateAsync(user).ConfigureAwait(false);
-        TypedDocumentSnapshot<User> snapshot = await docRef.GetSnapshotAsync().ConfigureAwait(false);
+        TypedDocumentReference<User> userDoc = _collection.Document();
+        DocumentReference emailDoc = _emailsCollection.Document(user.Email);
+        await _firestoreDb.RunTransactionAsync(async transaction =>
+        {
+            DocumentSnapshot? emailSnap = await transaction
+                .GetSnapshotAsync(emailDoc)
+                .ConfigureAwait(false);
+
+            if (emailSnap.Exists)
+            {
+                throw new DcException(ErrorCodes.EmailAlreadyTaken, $"Email {user.Email} already taken");
+            }
+
+            transaction.Create(userDoc, user);
+            transaction.Create(emailDoc, new { Created = DateTime.UtcNow });
+        }).ConfigureAwait(false);
+
+        TypedDocumentSnapshot<User> snapshot = await userDoc.GetSnapshotAsync().ConfigureAwait(false);
         return snapshot.RequiredObject;
     }
 
