@@ -27,7 +27,7 @@ public class SecurityManager : ISecurityManager
     {
         UserWithPassword? user = await GetUserByEmailSafe(auth.Email).ConfigureAwait(false);
 
-        if (user is not { PasswordInfo: { } } || !_passwordManager.IsPasswordValid(auth.Password, user.PasswordInfo))
+        if (user is not { PasswordInfo: { } } || !_passwordManager.VerifyPassword(auth.Password, user.PasswordInfo))
         {
             return false;
         }
