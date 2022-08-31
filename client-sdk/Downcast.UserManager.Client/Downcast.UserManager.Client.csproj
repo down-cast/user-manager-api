@@ -12,6 +12,8 @@
         <Description>
             Rest client for for user manager service
         </Description>
+        <RepositoryUrl>https://github.com/down-cast/user-manager-api</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
         <PackageTags>user</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>

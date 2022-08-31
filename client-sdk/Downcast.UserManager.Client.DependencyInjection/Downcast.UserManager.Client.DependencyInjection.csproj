@@ -12,6 +12,8 @@
         <Description>
             Extension to inject UserManagerClient into DI container
         </Description>
+        <RepositoryUrl>https://github.com/down-cast/user-manager-api</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
         <PackageTags>user di</PackageTags>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <NoWarn>$(NoWarn);1591</NoWarn>

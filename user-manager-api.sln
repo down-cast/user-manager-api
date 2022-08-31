@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Model"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Security", "src\Downcast.UserManager.Security\Downcast.UserManager.Security.csproj", "{5D4454FA-968B-4BEC-8A13-203F250D2C59}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cliend-sdk", "cliend-sdk", "{7C4A227B-CFE0-47A4-BB84-CF3B0CDB9560}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client-sdk", "client-sdk", "{7C4A227B-CFE0-47A4-BB84-CF3B0CDB9560}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Client", "client-sdk\Downcast.UserManager.Client\Downcast.UserManager.Client.csproj", "{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6}"
 EndProject
@@ -40,6 +40,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{C0A3BBA8-2E60-41DC-9FE6-02C837ECCD7A}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\build_and_test.yml = .github\workflows\build_and_test.yml
+		.github\workflows\publish_nuget.yml = .github\workflows\publish_nuget.yml
 	EndProjectSection
 EndProject
 Global
