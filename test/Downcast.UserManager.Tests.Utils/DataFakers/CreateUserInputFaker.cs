@@ -9,7 +9,7 @@ public sealed class CreateUserInputFaker : Faker<CreateUserInputModel>
     public CreateUserInputFaker()
     {
         RuleFor(u => u.DisplayName, faker => faker.Name.FullName());
-        RuleFor(u => u.Email, faker => faker.Internet.Email());
+        RuleFor(u => u.Email, faker => faker.Internet.Email().ToLower());
         RuleFor(u => u.Password, faker => faker.Internet.Password());
     }
 }

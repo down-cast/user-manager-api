@@ -20,7 +20,7 @@ public class CreateUserTests : BaseTestClass
         result.Content!.Email.Should().Be(createUser.Email);
         result.Content!.DisplayName.Should().Be(createUser.DisplayName);
     }
-    
+
     [Fact]
     public async Task CreateUser_EmailAlreadyTaken()
     {
@@ -29,5 +29,22 @@ public class CreateUserTests : BaseTestClass
         ApiResponse<User> result = await Client.CreateUser(createUser).ConfigureAwait(false);
         result.StatusCode.Should().Be(HttpStatusCode.Conflict);
         result.Content.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task CreateUser_Allows_Email_Reutilization()
+    {
+        CreateUserInputModel createUser = new CreateUserInputFaker().Generate();
+        ApiResponse<User> userResult = await Client.CreateUser(createUser).ConfigureAwait(false);
+        userResult.StatusCode.Should().Be(HttpStatusCode.Created);
+
+        HttpResponseMessage res = await Client.DeleteUser(userResult.Content!.Id).ConfigureAwait(false);
+        res.IsSuccessStatusCode.Should().BeTrue();
+
+        userResult = await Client.CreateUser(createUser).ConfigureAwait(false);
+        userResult.StatusCode.Should().Be(HttpStatusCode.Created);
+        userResult.Content.Should().NotBeNull();
+        userResult.Content!.Email.Should().Be(createUser.Email);
+        userResult.Content!.DisplayName.Should().Be(createUser.DisplayName);
     }
 }
