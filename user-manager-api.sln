@@ -23,6 +23,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Model"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Security", "src\Downcast.UserManager.Security\Downcast.UserManager.Security.csproj", "{5D4454FA-968B-4BEC-8A13-203F250D2C59}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "cliend-sdk", "cliend-sdk", "{7C4A227B-CFE0-47A4-BB84-CF3B0CDB9560}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Client", "client-sdk\Downcast.UserManager.Client\Downcast.UserManager.Client.csproj", "{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Client.DependencyInjection", "client-sdk\Downcast.UserManager.Client.DependencyInjection\Downcast.UserManager.Client.DependencyInjection.csproj", "{80DA0C6B-622B-417B-9F5F-332C05B8CB34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Tests.Utils", "test\Downcast.UserManager.Tests.Utils\Downcast.UserManager.Tests.Utils.csproj", "{058BC15F-7C23-4BC5-8E92-473363B34528}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Tests", "test\Downcast.UserManager.Tests\Downcast.UserManager.Tests.csproj", "{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Downcast.UserManager.Security.Tests", "test\Downcast.UserManager.Security.Tests\Downcast.UserManager.Security.Tests.csproj", "{FE4A301F-90D3-452E-AF5B-79D510821000}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +65,26 @@ Global
 		{5D4454FA-968B-4BEC-8A13-203F250D2C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D4454FA-968B-4BEC-8A13-203F250D2C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D4454FA-968B-4BEC-8A13-203F250D2C59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80DA0C6B-622B-417B-9F5F-332C05B8CB34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80DA0C6B-622B-417B-9F5F-332C05B8CB34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80DA0C6B-622B-417B-9F5F-332C05B8CB34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80DA0C6B-622B-417B-9F5F-332C05B8CB34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058BC15F-7C23-4BC5-8E92-473363B34528}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058BC15F-7C23-4BC5-8E92-473363B34528}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058BC15F-7C23-4BC5-8E92-473363B34528}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058BC15F-7C23-4BC5-8E92-473363B34528}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE4A301F-90D3-452E-AF5B-79D510821000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE4A301F-90D3-452E-AF5B-79D510821000}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE4A301F-90D3-452E-AF5B-79D510821000}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE4A301F-90D3-452E-AF5B-79D510821000}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{AB27795F-C37F-48FF-8899-99F4C0950156} = {329E7436-AE3D-423D-AE42-AD986CD62D87}
@@ -61,5 +93,10 @@ Global
 		{3B195AD9-EB57-4AAF-85B8-44AD07878AF0} = {329E7436-AE3D-423D-AE42-AD986CD62D87}
 		{7271CD00-73A4-41F6-964A-3E54F46B714C} = {329E7436-AE3D-423D-AE42-AD986CD62D87}
 		{5D4454FA-968B-4BEC-8A13-203F250D2C59} = {329E7436-AE3D-423D-AE42-AD986CD62D87}
+		{F5C5D31F-0E1E-4649-8E6D-3E0EE4A7ADC6} = {7C4A227B-CFE0-47A4-BB84-CF3B0CDB9560}
+		{80DA0C6B-622B-417B-9F5F-332C05B8CB34} = {7C4A227B-CFE0-47A4-BB84-CF3B0CDB9560}
+		{058BC15F-7C23-4BC5-8E92-473363B34528} = {0018D701-DBA5-4C74-B562-F36942B87BD6}
+		{4C0EF6E7-ED34-4A9C-8BEC-D31606FE9FB2} = {0018D701-DBA5-4C74-B562-F36942B87BD6}
+		{FE4A301F-90D3-452E-AF5B-79D510821000} = {0018D701-DBA5-4C74-B562-F36942B87BD6}
 	EndGlobalSection
 EndGlobal

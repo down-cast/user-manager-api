@@ -51,7 +51,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
     public async Task<User> GetByEmail(string email)
     {
         TypedQuerySnapshot<User> users = await _collection
-            .WhereEqualTo(user => user.Email, email)
+            .WhereEqualTo(user => user.Email, email.ToLower())
             .Limit(1)
             .GetSnapshotAsync()
             .ConfigureAwait(false);
@@ -69,7 +69,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
     public async Task<int> CountByEmail(string email)
     {
         TypedQuerySnapshot<User> snapshot = await _collection
-            .WhereEqualTo(user => user.Email, email)
+            .WhereEqualTo(user => user.Email, email.ToLower())
             .GetSnapshotAsync()
             .ConfigureAwait(false);
 
@@ -91,6 +91,7 @@ internal class UserRepositoryInternal : IUserRepositoryInternal
 
     public async Task<User> Create(User user)
     {
+        user.Email = user.Email.ToLower();
         TypedDocumentReference<User> userDoc = _collection.Document();
         DocumentReference emailDoc = _emailsCollection.Document(user.Email);
         await _firestoreDb.RunTransactionAsync(async transaction =>

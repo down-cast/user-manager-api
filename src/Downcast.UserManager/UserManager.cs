@@ -32,7 +32,7 @@ public class UserManager : IUserManager
             throw new DcException(ErrorCodes.EmailAlreadyTaken);
         }
 
-        var userToCreate = new Model.CreateUser
+        var userToCreate = new CreateUser
         {
             Email = userInputModel.Email,
             DisplayName = userInputModel.DisplayName,
