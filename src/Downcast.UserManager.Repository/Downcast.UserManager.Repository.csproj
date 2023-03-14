@@ -12,7 +12,7 @@
         <PackageReference Include="Downcast.Common.Errors" Version="0.0.16" />
         <PackageReference Include="Firestore.Typed.Client" Version="1.0.6" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
-        <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="6.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
